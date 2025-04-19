@@ -6,16 +6,15 @@ import {
   StyleSheet,
   ScrollView,
   ImageBackground,
-  useWindowDimensions,
 } from "react-native";
 import { useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { StatusBar } from "expo-status-bar";
 
 const Index = () => {
   const [showInput, setShowInput] = useState(false);
   const [location, setLocation] = useState("");
   const [weather, setWeather] = useState(null);
-  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
 
   const getWeather = () => {
     fetch(
@@ -32,25 +31,27 @@ const Index = () => {
   };
 
   return (
-    <>
-      <ScrollView>
-        <View style={{ flex: 1, padding: 20 }}>
-          <ImageBackground
-            source={(require = "../assets/images/night2.jpg")}
-            style={{ flex: 1 }}
-          ></ImageBackground>
+    <ImageBackground
+      source={require("../assets/images/night2.jpg")}
+      style={{ flex: 1 }}
+      resizeMode="cover"
+    >
+      <StatusBar style="light" translucent backgroundColor="transparent" />
+      <View style={{ flex: 1, paddingTop: 60 }}>
+        <ScrollView contentContainerStyle={style.scrollContent}>
           <View style={style.container}>
             {!showInput ? (
               <TouchableOpacity
                 style={{ marginLeft: 10 }}
                 onPress={() => setShowInput(true)}
               >
-                <Icon name="search" size={24} color={"#000000"} />
+                <Icon name="search" size={24} color={"#fff"} />
               </TouchableOpacity>
             ) : (
               <TextInput
                 style={style.textInput}
                 placeholder="Cari lokasi..."
+                placeholderTextColor="#888"
                 autoFocus={true}
                 keyboardType="web-search"
                 value={location}
@@ -61,31 +62,45 @@ const Index = () => {
             )}
           </View>
 
-          {/* Tampilkan hasil cuaca */}
           {weather && weather.main && (
             <View style={{ marginTop: 30 }}>
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                {weather.name}
+              <Text style={style.resultText}>{weather.name}</Text>
+              <Text style={style.resultText}>{weather.sys.country}</Text>
+              <Text style={style.resultText}>
+                Suhu: {weather.main.temp}°C
               </Text>
-              <Text>{weather.sys.country}</Text>
-              <Text>Suhu: {weather.main.temp}°C</Text>
-              <Text>Cuaca: {weather.weather[0].description}</Text>
-              <Text>Temperatur: {weather.main.temp_min}°C</Text>
-              <Text>Temperatur: {weather.main.temp_max}°C</Text>
-              <Text>Kecepatan angin: {weather.wind.speed} m/s</Text>
-              <Text>Clouds: {weather.clouds.all}%</Text>
-              <Text>
-                Geo cordinates: [{weather.coord.lat}, {weather.coord.lon}
+              <Text style={style.resultText}>
+                Cuaca: {weather.weather[0].description}
+              </Text>
+              <Text style={style.resultText}>
+                Temperatur Min: {weather.main.temp_min}°C
+              </Text>
+              <Text style={style.resultText}>
+                Temperatur Max: {weather.main.temp_max}°C
+              </Text>
+              <Text style={style.resultText}>
+                Kecepatan angin: {weather.wind.speed} m/s
+              </Text>
+              <Text style={style.resultText}>
+                Clouds: {weather.clouds.all}%
+              </Text>
+              <Text style={style.resultText}>
+                Koordinat: [{weather.coord.lat}, {weather.coord.lon}]
               </Text>
             </View>
           )}
-        </View>
-      </ScrollView>
-    </>
+        </ScrollView>
+      </View>
+    </ImageBackground>
   );
 };
 
+export default Index;
+
 const style = StyleSheet.create({
+  scrollContent: {
+    padding: 20,
+  },
   container: {
     flexDirection: "row",
     alignItems: "center",
@@ -100,7 +115,11 @@ const style = StyleSheet.create({
     marginHorizontal: 20,
     paddingHorizontal: 10,
     height: 40,
+    color: "#000",
+  },
+  resultText: {
+    color: "#fff",
+    fontSize: 18,
+    marginVertical: 4,
   },
 });
-
-export default Index;
