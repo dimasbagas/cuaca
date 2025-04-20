@@ -4,7 +4,6 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
   ImageBackground,
 } from "react-native";
 import { useState } from "react";
@@ -31,14 +30,16 @@ const Index = () => {
   };
 
   return (
-    <ImageBackground
-      source={require("../assets/images/night2.jpg")}
-      style={{ flex: 1 }}
-      resizeMode="cover"
-    >
-      <StatusBar style="light" translucent backgroundColor="transparent" />
-      <View style={{ flex: 1, paddingTop: 60 }}>
-        <ScrollView contentContainerStyle={style.scrollContent}>
+    <>
+      <ImageBackground
+        source={require("../assets/images/night2.jpg")}
+        style={{ flex: 1 }}
+        resizeMode="cover"
+      >
+        <StatusBar style="light" translucent backgroundColor="transparent" />
+
+        <View style={{ flex: 1, paddingTop: 60, padding: 20 }}>
+          {/* Search Bar */}
           <View style={style.container}>
             {!showInput ? (
               <TouchableOpacity
@@ -62,50 +63,77 @@ const Index = () => {
             )}
           </View>
 
+          {/* Konten Cuaca */}
           {weather && weather.main && (
-            <View style={{ marginTop: 30 }}>
-              <Text style={style.resultText}>{weather.name}</Text>
-              <Text style={style.resultText}>{weather.sys.country}</Text>
-              <Text style={style.resultText}>
-                Suhu: {weather.main.temp}°C
-              </Text>
-              <Text style={style.resultText}>
-                Cuaca: {weather.weather[0].description}
-              </Text>
-              <Text style={style.resultText}>
-                Temperatur Min: {weather.main.temp_min}°C
-              </Text>
-              <Text style={style.resultText}>
-                Temperatur Max: {weather.main.temp_max}°C
-              </Text>
-              <Text style={style.resultText}>
-                Kecepatan angin: {weather.wind.speed} m/s
-              </Text>
-              <Text style={style.resultText}>
-                Clouds: {weather.clouds.all}%
-              </Text>
-              <Text style={style.resultText}>
-                Koordinat: [{weather.coord.lat}, {weather.coord.lon}]
-              </Text>
+            <View style={{ flex: 1 }}>
+              {/* Bagian atas */}
+              <View>
+                <Text style={{ fontSize: 40, color: "#ffffff" }}>
+                  {weather.name}
+                  <Text style={style.resultText}> {weather.sys.country}</Text>
+                </Text>
+                <Text style={style.resultText}>
+                  Temperatur Min: {weather.main.temp_min}°C
+                </Text>
+                <Text style={style.resultText}>
+                  Temperatur Max: {weather.main.temp_max}°C
+                </Text>
+                <Text style={style.resultText}>
+                  Koordinat: [{weather.coord.lat}, {weather.coord.lon}]
+                </Text>
+              </View>
+
+              <View style={{marginTop: 'auto',}}>
+                <Text style={{fontSize: 50, color: '#ffffff'}}>{weather.main.temp}°C
+                </Text>
+                <Text style={style.resultText}>
+                  Cuaca: {weather.weather[0].description}
+                </Text>
+              </View>
+
+              {/* Bagian bawah */}
+              <View style={{ }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <View style={{ alignItems: "center" }}>
+                    <Text style={style.resultText}>Clouds:</Text>
+                    <Text style={style.valueText}>{weather.clouds.all}%</Text>
+                    <Text>%</Text>
+                  </View>
+                  <View style={{ alignItems: "center" }}>
+                    <Text style={style.resultText}>Humadity:</Text>
+                    <Text style={style.valueText}>
+                      {weather.main.humidity}°C
+                    </Text>
+                  </View>
+                  <View style={{ alignItems: "center" }}>
+                    <Text style={style.resultText}>Wind:</Text>
+                    <Text style={style.valueText}>
+                      {weather.wind.speed} m/s
+                    </Text>
+                  </View>
+                </View>
+              </View>
             </View>
           )}
-        </ScrollView>
-      </View>
-    </ImageBackground>
+        </View>
+      </ImageBackground>
+    </>
   );
 };
 
 export default Index;
 
 const style = StyleSheet.create({
-  scrollContent: {
-    padding: 20,
-  },
   container: {
     flexDirection: "row",
     alignItems: "center",
     height: 50,
-    marginTop: 20,
+    marginBottom: 20,
   },
   textInput: {
     backgroundColor: "#ffffff",
@@ -119,7 +147,12 @@ const style = StyleSheet.create({
   },
   resultText: {
     color: "#fff",
-    fontSize: 18,
+    fontSize: 10,
     marginVertical: 4,
+  },
+  valueText: {
+    fontSize: 30,
+    color: "#ffffff",
+    fontWeight: "bold",
   },
 });
