@@ -38,8 +38,14 @@ const Index = () => {
       >
         <StatusBar style="light" translucent backgroundColor="transparent" />
 
-        <View style={{ flex: 1, paddingTop: 60, padding: 20 }}>
-          {/* Search Bar */}
+        <View
+          style={{
+            flex: 1,
+            paddingTop: 60,
+            padding: 20,
+            backgroundColor: "rgba(0,0,0,0.3)",
+          }}
+        >
           <View style={style.container}>
             {!showInput ? (
               <TouchableOpacity
@@ -83,16 +89,24 @@ const Index = () => {
                 </Text>
               </View>
 
-              <View style={{marginTop: 'auto',}}>
-                <Text style={{fontSize: 50, color: '#ffffff'}}>{weather.main.temp}°C
+              <View style={{ marginTop: "auto" }}>
+                <Text style={{ fontSize: 50, color: "#ffffff" }}>
+                  {weather.main.temp}°C
                 </Text>
                 <Text style={style.resultText}>
                   Cuaca: {weather.weather[0].description}
                 </Text>
               </View>
 
-              {/* Bagian bawah */}
-              <View style={{ }}>
+              <View
+                style={{
+                  borderBottomColor: "rgba(225,225,225,0.7)",
+                  borderBottomWidth: 1,
+                  marginTop: 20,
+                }}
+              ></View>
+
+              <View style={{}}>
                 <View
                   style={{
                     flexDirection: "row",
@@ -100,21 +114,19 @@ const Index = () => {
                   }}
                 >
                   <View style={{ alignItems: "center" }}>
-                    <Text style={style.resultText}>Clouds:</Text>
-                    <Text style={style.valueText}>{weather.clouds.all}%</Text>
-                    <Text>%</Text>
+                    <Text style={style.humidityText}>Clouds</Text>
+                    <Text style={style.valueText}>{weather.clouds.all}</Text>
+                    <Text style={style.humidityText}>%</Text>
                   </View>
                   <View style={{ alignItems: "center" }}>
-                    <Text style={style.resultText}>Humadity:</Text>
-                    <Text style={style.valueText}>
-                      {weather.main.humidity}°C
-                    </Text>
+                    <Text style={style.humidityText}>Humadity</Text>
+                    <Text style={style.valueText}>{weather.main.humidity}</Text>
+                    <Text style={style.humidityText}>°C</Text>
                   </View>
                   <View style={{ alignItems: "center" }}>
-                    <Text style={style.resultText}>Wind:</Text>
-                    <Text style={style.valueText}>
-                      {weather.wind.speed} m/s
-                    </Text>
+                    <Text style={style.humidityText}>Wind</Text>
+                    <Text style={style.valueText}>{weather.wind.speed}</Text>
+                    <Text style={style.humidityText}>m/s</Text>
                   </View>
                 </View>
               </View>
@@ -136,7 +148,7 @@ const style = StyleSheet.create({
     marginBottom: 20,
   },
   textInput: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#f0f0f0f0",
     borderRadius: 8,
     elevation: 3,
     flex: 1,
@@ -146,9 +158,13 @@ const style = StyleSheet.create({
     color: "#000",
   },
   resultText: {
-    color: "#fff",
-    fontSize: 10,
+    color: "#f0f0f0f0",
+    fontSize: 14,
     marginVertical: 4,
+  },
+  humidityText: {
+    color: "#f0f0f0",
+    fontSize: 14,
   },
   valueText: {
     fontSize: 30,

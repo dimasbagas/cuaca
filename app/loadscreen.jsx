@@ -1,6 +1,7 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, } from "react-native";
 import React, { useEffect } from "react";
-import { Video } from "expo-av";
+import { Video } from "expo-video";
+
 import { useRouter } from "expo-router";
 
 const LoadScreen = () => {
@@ -8,8 +9,8 @@ const LoadScreen = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      router.replace("/"); // ke index
-    }, 100000);
+      router.replace("/");
+    }, 1000);
 
     return () => clearTimeout(timeout);
   }, []);
@@ -17,7 +18,7 @@ const LoadScreen = () => {
   return (
     <View style={styles.container}>
       <Video
-        source={require("../assets/images/sunny.jpg")}
+        source={require("../assets/videos/load.mp4")}
         style={styles.video}
         shouldPlay
         isLooping
